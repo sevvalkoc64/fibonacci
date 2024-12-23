@@ -17,25 +17,31 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v2
 
-      # 2. Feature branch oluşturuluyor
+      # 2. Git kullanıcı bilgilerini ayarla
+      - name: Set up Git user
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+
+      # 3. Feature branch oluşturuluyor
       - name: Create and switch to feature branch
         run: |
           git checkout -b feature-branch
 
-      # 3. .gitignore dosyası ekleniyor
+      # 4. .gitignore dosyası ekleniyor
       - name: Add .gitignore file
         run: |
           echo ".venv/" >> .gitignore
           git add .gitignore
           git commit -m "Add .gitignore"
 
-      # 4. Feature branch'i main dalına merge ediyoruz
+      # 5. Feature branch'i main dalına merge ediyoruz
       - name: Merge feature branch into main
         run: |
           git checkout main
           git merge feature-branch --no-ff -m "Merge feature branch into main"
 
-      # 5. Yapılan değişiklikler main dalına push ediliyor
+      # 6. Yapılan değişiklikler main dalına push ediliyor
       - name: Push changes to the main branch
         run: |
           git push origin main
