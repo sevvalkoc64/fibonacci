@@ -1,4 +1,4 @@
-name: Git Operations
+name: Fibonacci Workflow
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  git-operations:
+  fibonacci-job:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,34 +17,35 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v2
 
-      # 2. Git kullanıcı bilgilerini ayarla
-      - name: Set up Git user
-        run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+      # 2. Python'ı kuruyoruz
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
 
-      # 3. Feature branch oluşturuluyor
-      - name: Create and switch to feature branch
+      # 3. Gerekli bağımlılıkları kuruyoruz
+      - name: Install dependencies
         run: |
-          git checkout -b feature-branch
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Eğer başka bir bağımlılık varsa requirements.txt kullanabilirsiniz
 
-      # 4. .gitignore dosyası ekleniyor
-      - name: Add .gitignore file
+      # 4. Fibonacci fonksiyonunu test eden Python scriptini çalıştırıyoruz
+      - name: Run Fibonacci test
         run: |
-          echo ".venv/" >> .gitignore
-          git add .gitignore
-          git commit -m "Add .gitignore"
+          echo 'def fibonacci(n):' > fibonacci_test.py
+          echo '    fibonacci_dizisi = [0, 1]' >> fibonacci_test.py
+          echo '    for i in range(2, n):' >> fibonacci_test.py
+          echo '        sonraki = fibonacci_dizisi[-1] + fibonacci_dizisi[-2]' >> fibonacci_test.py
+          echo '        fibonacci_dizisi.append(sonraki)' >> fibonacci_test.py
+          echo '    return fibonacci_dizisi' >> fibonacci_test.py
+          echo 'print(fibonacci(10))' >> fibonacci_test.py
+          python fibonacci_test.py  # Fibonacci fonksiyonunu çalıştırıyoruz
 
-      # 5. Feature branch'i main dalına merge ediyoruz
-      - name: Merge feature branch into main
+      # 5. Sonuçları kontrol ediyoruz
+      - name: Check output
         run: |
-          git checkout main
-          git merge feature-branch --no-ff -m "Merge feature branch into main"
-
-      # 6. Yapılan değişiklikler main dalına push ediliyor
-      - name: Push changes to the main branch
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}  # Personal Access Token (PAT) kullanarak kimlik doğrulama
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git
-          git push origin main
+          if ! python fibonacci_test.py | grep -q "55"; then
+            echo "Fibonacci output is incorrect!";
+            exit 1;
+          fi
+          echo "Fibonacci test passed!"
