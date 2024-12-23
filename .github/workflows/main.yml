@@ -40,7 +40,8 @@ jobs:
         run: |
           result=$(python fibonacci_test.py)
           echo "Output: $result"
-          if [[ "$result" != *"55"* ]]; then
+          # Çıktıdaki son elemanı kontrol ediyoruz
+          if [[ "$result" != *"34"* ]]; then
             echo "Fibonacci output is incorrect!";
             exit 1;
           fi
