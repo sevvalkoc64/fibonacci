@@ -38,7 +38,9 @@ jobs:
       # 4. Sonuçları kontrol ediyoruz
       - name: Check output
         run: |
-          if ! python fibonacci_test.py | grep -q "55"; then
+          result=$(python fibonacci_test.py)
+          echo "Output: $result"
+          if [[ "$result" != *"55"* ]]; then
             echo "Fibonacci output is incorrect!";
             exit 1;
           fi
