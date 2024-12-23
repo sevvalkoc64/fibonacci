@@ -23,13 +23,7 @@ jobs:
         with:
           python-version: '3.8'
 
-      # 3. Gerekli bağımlılıkları kuruyoruz
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Eğer başka bir bağımlılık varsa requirements.txt kullanabilirsiniz
-
-      # 4. Fibonacci fonksiyonunu test eden Python scriptini çalıştırıyoruz
+      # 3. Fibonacci fonksiyonunu test eden Python scriptini çalıştırıyoruz
       - name: Run Fibonacci test
         run: |
           echo 'def fibonacci(n):' > fibonacci_test.py
@@ -41,7 +35,7 @@ jobs:
           echo 'print(fibonacci(10))' >> fibonacci_test.py
           python fibonacci_test.py  # Fibonacci fonksiyonunu çalıştırıyoruz
 
-      # 5. Sonuçları kontrol ediyoruz
+      # 4. Sonuçları kontrol ediyoruz
       - name: Check output
         run: |
           if ! python fibonacci_test.py | grep -q "55"; then
