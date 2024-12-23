@@ -1,0 +1,36 @@
+name: Git İşlemleri
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  git-operations:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodu kontrol et
+        uses: actions/checkout@v2
+
+      - name: Feature branch oluştur ve geçiş yap
+        run: |
+          git checkout -b feature-branch
+
+      - name: .gitignore dosyasını ekle
+        run: |
+          echo ".venv/" >> .gitignore
+          git add .gitignore
+          git commit -m "Add .gitignore"
+
+      - name: Feature branch'ini main dalına merge et
+        run: |
+          git checkout main
+          git merge feature-branch --no-ff -m "Feature branch'i main dalına merge et"
+
+      - name: Değişiklikleri uzak depoya gönder
+        run: |
+          git push origin main
