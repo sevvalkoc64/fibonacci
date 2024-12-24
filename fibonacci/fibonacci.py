@@ -7,5 +7,5 @@ def fibonacci(n):
 
     return fibonacci_dizisi
 
-print(fibonacci(30))
-
+print(fibonacci(40))
+print("üçüncü branch'te fibonacci(40) yazıldı")
