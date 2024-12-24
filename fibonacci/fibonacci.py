@@ -7,4 +7,5 @@ def fibonacci(n):
 
     return fibonacci_dizisi
 
-print(fibonacci(10))
+print(fibonacci(30))
+
