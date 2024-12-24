@@ -9,3 +9,4 @@ def fibonacci(n):
 
 print(fibonacci(40))
 print("üçüncü branch'te fibonacci(40) yazıldı")
+print("dorduncu branch yazısı")
