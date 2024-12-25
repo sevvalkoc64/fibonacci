@@ -13,17 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Reponun checkout işlemi
       - name: Check out the repository
         uses: actions/checkout@v2
 
-      # 2. Python'ı kuruyoruz
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
 
-      # 3. Fibonacci fonksiyonunu test eden Python scriptini çalıştırıyoruz
       - name: Run Fibonacci test
         run: |
           echo 'def fibonacci(n):' > fibonacci_test.py
@@ -33,16 +30,13 @@ jobs:
           echo '        fibonacci_dizisi.append(sonraki)' >> fibonacci_test.py
           echo '    return fibonacci_dizisi' >> fibonacci_test.py
           echo 'print(fibonacci(10))' >> fibonacci_test.py
-          python fibonacci_test.py  # Fibonacci fonksiyonunu çalıştırıyoruz
 
-      # 4. Sonuçları kontrol ediyoruz
       - name: Check output
         run: |
           result=$(python fibonacci_test.py)
           echo "Output: $result"
-          # Çıktıdaki son elemanı kontrol ediyoruz
           if [[ "$result" != *"34"* ]]; then
             echo "Fibonacci output is incorrect!";
             exit 1;
           fi
-          echo "Fibonacci test passed!"
+          echo "Fibonacci test edildi!"
