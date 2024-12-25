@@ -36,7 +36,7 @@ jobs:
           result=$(python fibonacci_test.py)
           echo "Output: $result"
           if [[ "$result" != *"34"* ]]; then
-            echo "Fibonacci output is incorrect!";
+            echo "Fibonacci çıktısı yanlış!";
             exit 1;
           fi
           echo "Fibonacci test edildi!"
